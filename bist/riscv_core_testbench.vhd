@@ -247,7 +247,7 @@ begin
 		lfsr_seed<="1010101010101010101010101010101010101010101010101010101010101001"; 
 		wait for apply_period;
 		dut_reset<='1'; lfsr_reset <='0';
-		lfsr_ld<='1';
+		lfsr_ld<='1'; test_en_i<='1';
 		wait for apply_period;
 		
 		--wait for apply_period*50; --prefill
@@ -258,7 +258,7 @@ begin
 			wait for apply_period;
 		end loop;
 		lfsr_seed<="0100100101010000100101010100101010100001001010010101001000010001"; 
-		lfsr_ld<='1';
+		lfsr_ld<='1'; test_en_i<='1';
 		wait for apply_period;
 		
 		--wait for apply_period;
@@ -269,7 +269,7 @@ begin
 			wait for apply_period;
 		end loop;
 		lfsr_seed<="1110100101010010111111110100101010101011110100000000000101010010"; 
-		lfsr_ld<='1';
+		lfsr_ld<='1'; test_en_i<='1';
 		wait for apply_period;
 		
 		--wait for apply_period;
@@ -280,7 +280,7 @@ begin
 			wait for apply_period;
 		end loop;
 		lfsr_seed<="1111111111111000000000000000111011100100111111110100100101010010"; 
-		lfsr_ld<='1';
+		lfsr_ld<='1'; test_en_i<='1';
 		wait for apply_period;
 		
 		--wait for apply_period;
@@ -291,7 +291,7 @@ begin
 			wait for apply_period;
 		end loop;
 		lfsr_seed<="0010010101001010100101111110101010100101010010000000101010101010"; 
-		lfsr_ld<='1';
+		lfsr_ld<='1'; test_en_i<='1';
 		wait for apply_period;
 		
 		--wait for apply_period;
@@ -302,7 +302,7 @@ begin
 			wait for apply_period;
 		end loop;
 		lfsr_seed<="0101010010000000000001010101111111010010101010101010100101010101"; 
-		lfsr_ld<='1';
+		lfsr_ld<='1'; test_en_i<='1';
 		wait for apply_period;
 		
 		--wait for apply_period;
@@ -313,7 +313,7 @@ begin
 			wait for apply_period;
 		end loop;
 		lfsr_seed<="1001010100000010101010100000101010010101010101010101010001010100"; 
-		lfsr_ld<='1';
+		lfsr_ld<='1'; test_en_i<='1';
 		wait for apply_period;
 		
 		--wait for apply_period;
@@ -324,7 +324,7 @@ begin
 			wait for apply_period;
 		end loop;
 		lfsr_seed<="0010101111110100101010101010010001001010101010101000101010101010"; 
-		lfsr_ld<='1';
+		lfsr_ld<='1'; test_en_i<='1';
 		wait for apply_period;
 		
 		--wait for apply_period;
@@ -335,7 +335,7 @@ begin
 			wait for apply_period;
 		end loop;
 		lfsr_seed<="1111101010101100101010101010101010100101010101000000000000011101"; 
-		lfsr_ld<='1';
+		lfsr_ld<='1'; test_en_i<='1';
 		wait for apply_period;
 		
 		--wait for apply_period;
@@ -346,7 +346,7 @@ begin
 			wait for apply_period;
 		end loop;
 		lfsr_seed<="0000000000001001010101111111010000000000010100100101000000110101"; 
-		lfsr_ld<='1';
+		lfsr_ld<='1'; test_en_i<='1';
 		wait for apply_period;
 		
 		--wait for apply_period;
@@ -357,7 +357,7 @@ begin
 			wait for apply_period;
 		end loop;
 		lfsr_seed<="0010101010101010100010010000101111101001010000010100010000010010"; 
-		lfsr_ld<='1';
+		lfsr_ld<='1'; test_en_i<='1';
 		wait for apply_period;
 		
 		--wait for apply_period;
@@ -368,7 +368,7 @@ begin
 			wait for apply_period;
 		end loop;
 		lfsr_seed<="0101010101010101001000111111111111111111111111110000000000111111"; 
-		lfsr_ld<='1';
+		lfsr_ld<='1'; test_en_i<='1';
 		wait for apply_period;
 		
 		--wait for apply_period;
