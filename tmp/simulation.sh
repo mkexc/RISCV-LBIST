@@ -47,4 +47,4 @@ while getopts "mt" opt; do
 done
   
 #export SIM_TIME=1000000
-tmax tmp/$p -shell
+#tmax2 tmp/$p -shell
