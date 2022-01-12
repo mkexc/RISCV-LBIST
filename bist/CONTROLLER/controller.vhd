@@ -105,7 +105,7 @@ begin
                     nextState<=S_Wait;
                 end if;
             when S_Capt =>
-                SCAN_EN <= '1';
+                SCAN_EN <= '0';
                 TPG_MUX_en<='1';
                 ODE_en<='1';
                 nextRes<=currRes;
@@ -116,12 +116,15 @@ begin
                 elsif(unsigned(currCycles)<64) then
                     nextState<=S_lo_unlo;
                 elsif(unsigned(currCycles)>=64 and unsigned(currRes)<12) then
-                    nextState<=S_Seed
+                    nextState<=S_Seed;
                 else
                     nextState<=S_end;
                 end if;
             when S_end =>
                 END_TEST <= '1';
+                nextRes<=(others => '0');
+                nextCnt<=(others => '0');
+                nextCycles<=(others => '0');
                 if (MISR_OUT = GOLDEN_SIGNATURE) then
                     GO<='1';
                 end if;
