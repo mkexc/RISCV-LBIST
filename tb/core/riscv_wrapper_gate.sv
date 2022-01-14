@@ -273,7 +273,7 @@ module riscv_wrapper
 
       controller
       #(
-        .GOLDEN_SIGNATURE(64'b0)
+        .GOLDEN_SIGNATURE('hEFCF01E7782667FA)
       )
       ctl_i
       (
