@@ -46,6 +46,11 @@ module tb_top
     // signals for ri5cy
     logic                   fetch_enable;
 
+    //LBIST signals
+    logic                   test_enable = 1'b0;
+    logic                   test_go;
+    logic                   test_end;
+
     // make the core start fetching instruction immediately
     assign fetch_enable = '1;
 
@@ -158,11 +163,15 @@ module tb_top
     riscv_wrapper_i
         (.clk_i          ( clk          ),
          .rst_ni         ( rst_n        ),
+         .test_en        ( test_enable  ),
          .fetch_enable_i ( fetch_enable ),
          .tests_passed_o ( tests_passed ),
          .tests_failed_o ( tests_failed ),
          .exit_valid_o   ( exit_valid   ),
-         .exit_value_o   ( exit_value   ));
+         .exit_value_o   ( exit_value   ),
+         .bist_go        ( test_go      ),
+         .bist_end       ( test_end     )
+         );
 
 `ifndef VERILATOR
     initial begin
