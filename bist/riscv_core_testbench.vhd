@@ -71,7 +71,7 @@ architecture tb of riscv_testbench is
 			ZERO_D : out std_logic);
 	end component;
 
-	component xorGrid is
+	component PHASE_SHFT is
 	GENERIC (
 		N: integer := 64
 	);
@@ -103,7 +103,7 @@ architecture tb of riscv_testbench is
     -- LFSR outputs
 	signal lfsr_q: std_logic_vector(N_LFSR-1 downto 0); 
 
-	-- xorGrid outputs
+	-- PHASE_SHFT outputs
 	signal grid_out: std_logic_vector(N_LFSR-1 downto 0);
 	
 	-- DUT inputs
@@ -190,7 +190,7 @@ begin
 		rst_ni=>dut_reset	
 	);
 
-	myxorGrid : xorGrid
+	myPHASE_SHFT : PHASE_SHFT
 	generic map (N=>64)
 	port map (
 		LFSR_OUT=>lfsr_q,

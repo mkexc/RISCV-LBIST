@@ -52,6 +52,8 @@ begin
                 nextRes<=(others => '0');
                 nextCnt<=(others => '0');
                 nextCycles<=(others => '0');
+                LFSR_MISR_RESET<='1';
+                DUT_RESET <= '0';
             when S_Wait => 
                 if(TEST = '1') then
                     nextState<=S_TRST; 

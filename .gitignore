@@ -2,3 +2,6 @@
 run
 log
 *.log
+sbst/sbst.elf
+sbst/sbst.hex
+sbst/sbst.map
