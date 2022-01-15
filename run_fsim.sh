@@ -4,11 +4,9 @@ cd $( dirname $0)
 root_dir=${PWD}
 cd - &>/dev/null
 
-run_dir=${root_dir}/run
+cd ${root_dir}/syn/run
 
-cd ${run_dir}
-
-${root_dir}/fix_evcd.sh dumpports_gate.evcd
-
-tmax -shell ${root_dir}/tmax.tcl
+# Invoke TetraMAX and run the TCL script, see log file into ./syn/log dir
+tmax  ../fsim_stuck_script.tcl -shell | tee ../log/tmax_stuck_log.log 
+tmax  ../fsim_transition_script.tcl -shell | tee ../log/tmax_transition_log.log 
 

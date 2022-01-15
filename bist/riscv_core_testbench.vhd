@@ -77,7 +77,7 @@ architecture tb of riscv_testbench is
 	);
 	PORT(
 		LFSR_OUT: IN std_logic_vector(N-1 DOWNTO 0);
-		PREG_OUT: OUT std_logic_vector(N-1 DOWNTO 0)
+		PH_SHFT_O: OUT std_logic_vector(N-1 DOWNTO 0)
 	);
 	end component;
 
@@ -104,10 +104,9 @@ architecture tb of riscv_testbench is
 	signal lfsr_q: std_logic_vector(N_LFSR-1 downto 0); 
 
 	-- PHASE_SHFT outputs
-	signal grid_out: std_logic_vector(N_LFSR-1 downto 0);
+	signal ph_shft: std_logic_vector(N_LFSR-1 downto 0);
 	
 	-- DUT inputs
-	signal dut_test_mode : std_logic := '0';
 	signal clock_en_i,test_en_i,fregfile_disable_i,instr_gnt_i,instr_rvalid_i,data_gnt_i,data_rvalid_i,apu_master_gnt_i,apu_master_valid_i,irq_i,irq_sec_i,debug_req_i,fetch_enable_i: std_logic;
 	signal boot_addr_i  			: std_logic_vector (31 downto 0);
 	signal core_id_i				: std_logic_vector (3 downto 0);
@@ -147,79 +146,77 @@ begin
 	dut: riscv_core_0_128_1_16_1_1_0_0_0_0_0_0_0_0_0_3_6_15_5_1a110800 
 		port map (
 			clock_en_i => clock_en_i,
-		test_en_i => test_en_i,
-		test_mode_tp => '1',
-		fregfile_disable_i => fregfile_disable_i,
-		instr_gnt_i => instr_gnt_i,
-		instr_rvalid_i => instr_rvalid_i,
-		data_gnt_i => data_gnt_i,
-		data_rvalid_i => data_rvalid_i,
-		apu_master_gnt_i => apu_master_gnt_i,
-		apu_master_valid_i => apu_master_valid_i,
-		irq_i => irq_i,
-		irq_sec_i => irq_sec_i,
-		debug_req_i => debug_req_i,
-		fetch_enable_i => fetch_enable_i,
-		boot_addr_i => boot_addr_i,
-		core_id_i => core_id_i,
-		cluster_id_i => cluster_id_i,
-		instr_rdata_i => instr_rdata_i,
-		data_rdata_i => data_rdata_i,
-		apu_master_result_i => apu_master_result_i,
-		apu_master_flags_i => apu_master_flags_i,
-		irq_id_i => irq_id_i,
-		ext_perf_counters_i => ext_perf_counters_i,
-		instr_req_o => instr_req_o,
-		data_req_o => data_req_o,
-		data_we_o => data_we_o,
-		apu_master_req_o => apu_master_req_o,
-		apu_master_ready_o => apu_master_ready_o,
-		irq_ack_o => irq_ack_o,
-		sec_lvl_o => sec_lvl_o,
-		core_busy_o => core_busy_o,
-		instr_addr_o => instr_addr_o,
-		data_be_o => data_be_o,
-		data_addr_o => data_addr_o,
-		data_wdata_o => data_wdata_o,
-		apu_master_operands_o => apu_master_operands_o,
-		apu_master_op_o => apu_master_op_o,
-		apu_master_type_o => apu_master_type_o,
-		apu_master_flags_o => apu_master_flags_o,
-		irq_id_o =>	irq_id_o,
-		clk_i=>dut_clock,
-		rst_ni=>dut_reset	
-	);
+			test_en_i => test_en_i,
+			test_mode_tp => '1',
+			fregfile_disable_i => fregfile_disable_i,
+			instr_gnt_i => instr_gnt_i,
+			instr_rvalid_i => instr_rvalid_i,
+			data_gnt_i => data_gnt_i,
+			data_rvalid_i => data_rvalid_i,
+			apu_master_gnt_i => apu_master_gnt_i,
+			apu_master_valid_i => apu_master_valid_i,
+			irq_i => irq_i,
+			irq_sec_i => irq_sec_i,
+			debug_req_i => debug_req_i,
+			fetch_enable_i => fetch_enable_i,
+			boot_addr_i => boot_addr_i,
+			core_id_i => core_id_i,
+			cluster_id_i => cluster_id_i,
+			instr_rdata_i => instr_rdata_i,
+			data_rdata_i => data_rdata_i,
+			apu_master_result_i => apu_master_result_i,
+			apu_master_flags_i => apu_master_flags_i,
+			irq_id_i => irq_id_i,
+			ext_perf_counters_i => ext_perf_counters_i,
+			instr_req_o => instr_req_o,
+			data_req_o => data_req_o,
+			data_we_o => data_we_o,
+			apu_master_req_o => apu_master_req_o,
+			apu_master_ready_o => apu_master_ready_o,
+			irq_ack_o => irq_ack_o,
+			sec_lvl_o => sec_lvl_o,
+			core_busy_o => core_busy_o,
+			instr_addr_o => instr_addr_o,
+			data_be_o => data_be_o,
+			data_addr_o => data_addr_o,
+			data_wdata_o => data_wdata_o,
+			apu_master_operands_o => apu_master_operands_o,
+			apu_master_op_o => apu_master_op_o,
+			apu_master_type_o => apu_master_type_o,
+			apu_master_flags_o => apu_master_flags_o,
+			irq_id_o =>	irq_id_o,
+			clk_i=>dut_clock,
+			rst_ni=>dut_reset	
+		);
 
 	myPHASE_SHFT : PHASE_SHFT
 	generic map (N=>64)
 	port map (
 		LFSR_OUT=>lfsr_q,
-		PREG_OUT=>grid_out
+		PH_SHFT_O=>ph_shft
 	);
 		
-	boot_addr_i <= grid_out(31 downto 0);
-	core_id_i<= grid_out(3 downto 0);
-	cluster_id_i <= grid_out(5 downto 0);
-	instr_rdata_i <= grid_out(63 downto 0)&grid_out(63 downto 0);
-	data_rdata_i <= grid_out(31 downto 0);
-	apu_master_result_i <= grid_out(31 downto 0);
-	apu_master_flags_i <= grid_out(4 downto 0);
-	irq_id_i <= grid_out(4 downto 0);
-	ext_perf_counters_i <= grid_out(2 downto 1);
+	fregfile_disable_i <= ph_shft(0);
+ 	instr_gnt_i <= ph_shft(1);
+	instr_rvalid_i <= ph_shft(2);
+ 	data_gnt_i <= ph_shft(3);
+ 	data_rvalid_i <= ph_shft(4);
+ 	apu_master_gnt_i <= ph_shft(5);
+	apu_master_valid_i <= ph_shft(6);
+ 	irq_i <= ph_shft(7);
+ 	irq_sec_i <= ph_shft(8);
+ 	debug_req_i <= ph_shft(9);
+ 	fetch_enable_i <= ph_shft(10);
+	boot_addr_i <= ph_shft(31 downto 0);
+	core_id_i<= ph_shft(3 downto 0);
+	cluster_id_i <= ph_shft(5 downto 0);
+	instr_rdata_i <= ph_shft(63 downto 0)&ph_shft(63 downto 0);
+	data_rdata_i <= ph_shft(31 downto 0);
+	apu_master_result_i <= ph_shft(31 downto 0);
+	apu_master_flags_i <= ph_shft(4 downto 0);
+	irq_id_i <= ph_shft(4 downto 0);
+	ext_perf_counters_i <= ph_shft(2 downto 1);
  	clock_en_i <= '1';
- 	--test_en_i <= '0';
- 	fregfile_disable_i <= grid_out(0);
- 	instr_gnt_i <= grid_out(1);
-	instr_rvalid_i <= grid_out(2);
- 	data_gnt_i <= grid_out(3);
- 	data_rvalid_i <= grid_out(4);
- 	apu_master_gnt_i <= grid_out(5);
-	apu_master_valid_i <= grid_out(6);
- 	irq_i <= grid_out(7);
- 	irq_sec_i <= grid_out(8);
- 	debug_req_i <= grid_out(9);
- 	fetch_enable_i <= grid_out(10);
-
 
 -- ***** CLOCK/RESET ***********************************
 
@@ -238,9 +235,6 @@ begin
     dut_clock <= transport tester_clock after apply_period;
     lfsr_clock <= transport tester_clock after apply_period - clock_t1;
 
-    --dut_reset <= '1', '0' after apply_period, '1' after apply_period*2;
-    --lfsr_reset <= '1', '0' after apply_period;
-
 	sc_mgmt: process
 	begin
 		lfsr_ld<='0'; test_en_i<='1'; dut_reset<='0'; lfsr_reset <='1';
@@ -250,7 +244,7 @@ begin
 		lfsr_ld<='1'; test_en_i<='1';
 		wait for apply_period;
 		
-		--wait for apply_period*50; --prefill
+		
 		for i in 0 to 64 loop 
 			test_en_i<='1'; lfsr_ld<='0';
 			wait for apply_period*50;
@@ -261,7 +255,7 @@ begin
 		lfsr_ld<='1'; test_en_i<='1';
 		wait for apply_period;
 		
-		--wait for apply_period;
+		
 		for i in 0 to 64 loop 
 			test_en_i<='1'; lfsr_ld<='0';
 			wait for apply_period*50;
@@ -272,7 +266,7 @@ begin
 		lfsr_ld<='1'; test_en_i<='1';
 		wait for apply_period;
 		
-		--wait for apply_period;
+		
 		for i in 0 to 64 loop 
 			test_en_i<='1'; lfsr_ld<='0';
 			wait for apply_period*50;
@@ -283,7 +277,7 @@ begin
 		lfsr_ld<='1'; test_en_i<='1';
 		wait for apply_period;
 		
-		--wait for apply_period;
+		
 		for i in 0 to 64 loop 
 			test_en_i<='1'; lfsr_ld<='0';
 			wait for apply_period*50;
@@ -294,7 +288,7 @@ begin
 		lfsr_ld<='1'; test_en_i<='1';
 		wait for apply_period;
 		
-		--wait for apply_period;
+		
 		for i in 0 to 64 loop 
 			test_en_i<='1'; lfsr_ld<='0';
 			wait for apply_period*50;
@@ -305,7 +299,7 @@ begin
 		lfsr_ld<='1'; test_en_i<='1';
 		wait for apply_period;
 		
-		--wait for apply_period;
+		
 		for i in 0 to 64 loop 
 			test_en_i<='1'; lfsr_ld<='0';
 			wait for apply_period*50;
@@ -316,7 +310,7 @@ begin
 		lfsr_ld<='1'; test_en_i<='1';
 		wait for apply_period;
 		
-		--wait for apply_period;
+		
 		for i in 0 to 64 loop 
 			test_en_i<='1';lfsr_ld<='0';
 			wait for apply_period*50;
@@ -327,7 +321,7 @@ begin
 		lfsr_ld<='1'; test_en_i<='1';
 		wait for apply_period;
 		
-		--wait for apply_period;
+		
 		for i in 0 to 64 loop 
 			test_en_i<='1'; lfsr_ld<='0';
 			wait for apply_period*50;
@@ -338,7 +332,7 @@ begin
 		lfsr_ld<='1'; test_en_i<='1';
 		wait for apply_period;
 		
-		--wait for apply_period;
+		
 		for i in 0 to 64 loop 
 			test_en_i<='1'; lfsr_ld<='0';
 			wait for apply_period*50;
@@ -349,7 +343,7 @@ begin
 		lfsr_ld<='1'; test_en_i<='1';
 		wait for apply_period;
 		
-		--wait for apply_period;
+		
 		for i in 0 to 64 loop 
 			test_en_i<='1'; lfsr_ld<='0';
 			wait for apply_period*50;
@@ -360,7 +354,7 @@ begin
 		lfsr_ld<='1'; test_en_i<='1';
 		wait for apply_period;
 		
-		--wait for apply_period;
+		
 		for i in 0 to 64 loop 
 			test_en_i<='1'; lfsr_ld<='0';
 			wait for apply_period*50;
@@ -371,7 +365,7 @@ begin
 		lfsr_ld<='1'; test_en_i<='1';
 		wait for apply_period;
 		
-		--wait for apply_period;
+		
 		for i in 0 to 64 loop 
 			test_en_i<='1'; lfsr_ld<='0';
 			wait for apply_period*50;
