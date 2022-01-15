@@ -102,8 +102,6 @@ module riscv_wrapper
     logic [4:0]                   apu_master_flags_mux;
     logic [4:0]                   irq_id_mux;
 
-    const logic [63:0] golden_sign = 64'hEFCF01E7782667FA;
-
     // interrupts (only timer for now)
     assign irq_sec     = 1'b0;
 
@@ -274,7 +272,7 @@ module riscv_wrapper
 
       controller
       #(
-        .GOLDEN_SIGNATURE(golden_sign)
+        .GOLDEN_SIGNATURE(64'hEFCF01E7782667FA)
       )
       ctl_i
       (
