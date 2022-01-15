@@ -124,6 +124,7 @@ begin
                 end if;
             when S_end =>
                 END_TEST <= '1';
+                DUT_RESET <= '0';
                 nextRes<=(others => '0');
                 nextCnt<=(others => '0');
                 nextCycles<=(others => '0');
