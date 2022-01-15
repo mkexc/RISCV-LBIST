@@ -5,3 +5,5 @@ log
 sbst/sbst.elf
 sbst/sbst.hex
 sbst/sbst.map
+*.vcd
+*.evcd
