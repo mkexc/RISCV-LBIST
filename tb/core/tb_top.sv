@@ -47,12 +47,33 @@ module tb_top
     logic                   fetch_enable;
 
     //LBIST signals
-    logic                   test_enable = 1'b0;
+    logic                   test_enable;
     logic                   test_go;
     logic                   test_end;
 
     // make the core start fetching instruction immediately
-    assign fetch_enable = '1;
+    //assign fetch_enable = '0;
+
+    //TEST PROCEDURE
+    //IF LBIST IS OK, START FIRMWARE
+    initial begin
+        $display("LBIST TEST START");
+        fetch_enable = 1'b0;
+        test_enable = 1'b1;
+        
+        wait( test_end == 1'b1 );
+        $display("LBIST TEST END");
+        #CLK_PHASE_HI;
+        test_enable = 1'b0;
+        if ( test_go == 1'b1 ) begin
+            $display("LBIST TEST OKAY: BOOTING FIRMWARE...");
+            fetch_enable = 1'b1;
+        end else begin
+            $display("LBIST TEST FAIL: SYSTEM HALTED!");
+            $finish;
+        end
+        
+    end
 
     // allow vcd dump
     initial begin
