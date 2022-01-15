@@ -84,7 +84,7 @@ begin
                 nextCnt<=(others => '0');
                 nextCycles<=(others => '0');
                 if(TEST = '0') then
-                    nextState<=S_wait;
+                    nextState<=S_TRST;
                 else 
                     nextState<=S_lo_unlo;
                 end if;
@@ -104,7 +104,7 @@ begin
                 elsif (TEST = '1' and unsigned(currCnt)>=49) then
                     nextState<=S_Capt;
                 else
-                    nextState<=S_Wait;
+                    nextState<=S_TRST;
                 end if;
             when S_Capt =>
                 SCAN_EN <= '0';
@@ -114,7 +114,7 @@ begin
                 nextCnt<=(others => '0');
                 nextCycles<=std_logic_vector(unsigned(currCycles)+1);
                 if(TEST = '0') then
-                    nextState<=S_wait;
+                    nextState<=S_TRST;
                 elsif(unsigned(currCycles)<64) then
                     nextState<=S_lo_unlo;
                 elsif(unsigned(currCycles)>=64 and unsigned(currRes)<12) then
