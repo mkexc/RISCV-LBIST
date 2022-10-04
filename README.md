@@ -1,6 +1,29 @@
 # Logic BIST for RI5CY core
 
-## Scripts:
+Logic BIST implementation for the cv32e40p (ex RI5CY) processor.
+
+## Architecture
+
+The circuit has been modified during synthesis to improve DfT. In particular:
+- Scan chain insertion (64 scan chains with shared SI/SO signals).
+- Test Point Insertion (about 3800).
+
+The LBIST architecture is composed by:
+- 64-bit LFSR, as a PRNG
+- Phase Shifter, to reduce scan chain correlation and also feed the PIs
+- ROM for storing Re-seeding vectors
+- Space Compactor, to reduce the number of MISR's bits from 231 to 64
+- 64 bit MISR
+- LBIST Controller, implemented as an HLSM 
+## Fault Coverage
+
+The achieved Fault Coverage for this implementation is:
+
+| Type                  | FC     |
+|-----------------------|--------|
+|Stuck-at Faults        | 89.91% |
+|Transition Delay Faults| 85.18% |
+## Scripts
 - compile_testbench.sh : compiles all the required files to run the simulation of the core with LBIST
 - compile_sbst.sh : compiles the firmware that will be used when the LBIST returns OK
 - run_gate_gui.sh : runs the simulation of the core with LBIST. Launches a firmware if test is OK
